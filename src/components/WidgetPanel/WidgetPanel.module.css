@@ -1,0 +1,36 @@
+.widgetContainer {
+    display: 'flex';
+    flex-direction: 'column';
+    align-items: 'center';
+    padding: '20px';
+    width: '250px';
+    background-color: '#fff';
+    border-radius: '10px';
+    box-shadow: '0 4px 8px rgba(0, 0, 0, 0.1)';
+    overflow: 'hidden';
+    height: '100vh',
+  }
+
+  .widget {
+    padding: 15px;
+    margin: 10px;
+    background-color: #f1f1f1;
+    cursor: move;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+  }
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    padding-left: 20px;
+  }
+  
+  
+  
+  
+  
+  
