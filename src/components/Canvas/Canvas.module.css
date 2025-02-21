@@ -35,7 +35,7 @@
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
-  color: red;
+  color: black;
   z-index: 10;
   outline: none; /* Remove outline on focus */
 }
