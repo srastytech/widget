@@ -11,9 +11,31 @@ const WidgetPanel: React.FC = () => {
           key={widget.id}
           data-testid={`widget-${widget.id}`}
           draggable
-          onDragStart={(e: React.DragEvent<HTMLDivElement>) => {
-            e.dataTransfer.setData("widgetData", JSON.stringify(widget));
+          onDragStart={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const offsetX = e.clientX - rect.left;
+            const offsetY = e.clientY - rect.top;
+            console.log("Dragging:", {
+              widgetId: widget.id,
+              clientX: e.clientX,
+              clientY: e.clientY,
+              rectLeft: rect.left,
+              rectTop: rect.top,
+              offsetX,
+              offsetY,
+            });
+          
+            e.dataTransfer.setData(
+              "widgetData",
+              JSON.stringify({
+                ...widget,
+                offsetX,
+                offsetY,
+                isNew: true, // Mark this as a new widget
+              })
+            );
           }}
+          
           className={styles.widget}
         >
           {widget.name}

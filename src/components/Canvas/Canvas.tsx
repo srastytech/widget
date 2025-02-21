@@ -26,19 +26,48 @@ const Canvas: React.FC<CanvasProps> = ({ widgets, onWidgetMove, onWidgetEdit, on
       e.preventDefault();
       const widgetData = e.dataTransfer.getData("widgetData");
       if (!widgetData || !canvasRef.current) return;
-
+  
       try {
-        const widget: WidgetType = JSON.parse(widgetData);
-        const { left, top } = canvasRef.current.getBoundingClientRect();
-
-        onWidgetMove({ ...widget, x: e.clientX - left, y: e.clientY - top });
+        const parsedData = JSON.parse(widgetData);
+        const { name, type, offsetX, offsetY, isNew } = parsedData;
+        console.log(offsetX, 'offsetX')
+        console.log(offsetY, 'offsetY')
+  
+        const canvas = canvasRef.current;
+        const { left, top } = canvas.getBoundingClientRect();
+        console.log(e.clientX, ' e.clientX')
+        console.log(e.clientY, ' e.clientY')
+        console.log(left, 'left')
+        console.log(top, 'top')
+  
+        let adjustedX = e.clientX - left -offsetX;
+        let adjustedY = e.clientY - top- offsetY;
+        
+       
+        if (isNew) {
+          // Add a new widget (Only when dragged from WidgetPanel)
+          const newWidget: WidgetType = {
+            id: Date.now(), // Generate a new ID
+            name,
+            type,
+            content: type === "Button" ? "button" : "", // Default button content
+            x: adjustedX,
+            y: adjustedY,
+          };
+          onWidgetMove(newWidget); // Append a new widget
+        } else {
+          // Move an existing widget
+          onWidgetMove({ ...parsedData, x: adjustedX, y: adjustedY });
+        }
       } catch (error) {
         console.error("Invalid widget data:", error);
       }
     },
     [onWidgetMove]
   );
-
+  
+  
+  
   const handleTableChange = (id: number, rowIndex: number, colIndex: number, value: string) => {
     const widget = widgets.find((w) => w.id === id);
     if (!widget) return;
@@ -202,7 +231,21 @@ const Canvas: React.FC<CanvasProps> = ({ widgets, onWidgetMove, onWidgetEdit, on
           className={styles.widgetContainer}
           style={{ top: `${widget.y}px`, left: `${widget.x}px` }}
           draggable
-          onDragStart={(e) => e.dataTransfer.setData("widgetData", JSON.stringify(widget))}
+          onDragStart={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const offsetX = e.clientX - rect.left;
+            const offsetY = e.clientY - rect.top;
+          
+            e.dataTransfer.setData(
+              "widgetData",
+              JSON.stringify({
+                ...widget,
+                offsetX,
+                offsetY,
+              })
+            );
+          }}
+          
         >
           <div className={styles.widgetContent}>{renderWidgetContent(widget)}</div>
 

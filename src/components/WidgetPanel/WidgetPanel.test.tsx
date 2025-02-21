@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import WidgetPanel from "./WidgetPanel";
@@ -18,7 +17,6 @@ describe("WidgetPanel Component", () => {
       }
     });
   });
-  
 
   it("triggers drag event with correct data", () => {
     render(<WidgetPanel />);
@@ -42,9 +40,21 @@ describe("WidgetPanel Component", () => {
 
     widgetElement.dispatchEvent(dragStartEvent);
 
-    expect(mockDataTransfer.setData).toHaveBeenCalledWith(
-      "widgetData",
-      JSON.stringify(widgetTypes[0])
-    );
+    // Parse actual argument passed to setData
+    const [[, actualData]] = mockDataTransfer.setData.mock.calls;
+    const parsedData = JSON.parse(actualData);
+
+    // Validate required properties while allowing dynamic structure
+    expect(parsedData).toMatchObject({
+      id: widgetTypes[0].id,
+      type: widgetTypes[0].type,
+      content: widgetTypes[0].content,
+      name: widgetTypes[0].name,
+    });
+
+    // Ensure `offsetX`, `offsetY`, and `isNew` are correctly handled
+    expect(parsedData.offsetX).toBeDefined();
+    expect(parsedData.offsetY).toBeDefined();
+    expect(typeof parsedData.isNew).toBe("boolean");
   });
 });
