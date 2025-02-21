@@ -1,21 +1,50 @@
+/* Canvas Styles */
 .canvasContainer {
   position: relative;
   width: 100%;
   height: 100%;
   border: 1px dashed #ccc;
   background-color: #f9f9f9;
+  margin-bottom: 20px;
 }
 
+/* Widget Container - Removed Background & Border */
 .widgetContainer {
   position: absolute;
   padding: 15px;
   cursor: move;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
+/* Widget Content */
 .widgetContent {
   text-align: center;
+  width: 100%;
 }
 
+/* Close Button */
+.closeButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  color: red;
+  z-index: 10;
+  outline: none; /* Remove outline on focus */
+}
+
+.closeButton:focus {
+  outline: none; /* Remove any focus outline */
+}
+
+/* Text Widget */
 .textArea {
   width: 100%;
   padding: 10px;
@@ -27,27 +56,37 @@
   background-color: #f9f9f9;
 }
 
-.imageContainer {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  padding: 10px;
-}
-
+/* Image Widget */
 .imagePreview {
   max-width: 100px;
   max-height: 100px;
   margin-top: 10px;
+  display: block;
 }
 
+/* Button Widget */
 .buttonInput {
   width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px; 
+  border: none; 
+  border-radius: 5px; 
+  text-align: center;
+  background-color: #007bff; 
+  color: white; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+.buttonInput:hover {
+  background-color: #0056b3; 
+}
+
+.buttonInput:focus {
+  outline: none; /* Remove the outline on focus */
+}
+
+/* Table Widget */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -64,15 +103,4 @@
   width: 100%;
   border: none;
   background: transparent;
-}
-
-.closeButton {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
 }

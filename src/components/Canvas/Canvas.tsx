@@ -136,6 +136,7 @@ const Canvas: React.FC<CanvasProps> = ({ widgets, onWidgetMove, onWidgetEdit, on
             className={styles.buttonInput}
             value={typeof widget.content === "string" ? widget.content : ""}
             onChange={(e) => onWidgetEdit(widget.id, e.target.value)}
+            onClick = {()=>alert('button clicked')}
           />
         );
 
